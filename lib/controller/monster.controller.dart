@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:yugioh/model/data.dart';
 import 'package:yugioh/model/monster.dart';
 import 'package:yugioh/repositories/monster.repository.dart';
 
@@ -83,6 +84,9 @@ abstract class _MonsterControllerBase with Store {
   Monster wingedBeast;
 
   @observable
+  ObservableList<Data> listDB;
+
+  @observable
   bool isLoading = false;
 
   @action
@@ -136,6 +140,7 @@ abstract class _MonsterControllerBase with Store {
     } else if (race == "Winged Beast") {
       wingedBeast = await _monsterRepository.fetchMonsters(race);
     }
+
     isLoading = false;
   }
 }

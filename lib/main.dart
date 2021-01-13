@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:yugioh/model/monster.dart';
+import 'model/data.dart';
 
 import 'controller/monster.controller.dart';
 
