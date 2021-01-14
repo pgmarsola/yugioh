@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'helper/database.dart';
 import 'model/data.dart';
 
 import 'controller/monster.controller.dart';
@@ -32,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MonsterController _monsterController;
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   void initState() {
@@ -42,28 +44,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _loadingEffectMonster() async {
     _monsterController = MonsterController();
-    await _monsterController.fetchCards("Aqua");
-    await _monsterController.fetchCards("Beast");
-    await _monsterController.fetchCards("Beast-Warrior");
-    await _monsterController.fetchCards("Creator-God");
-    await _monsterController.fetchCards("Cyberse");
-    await _monsterController.fetchCards("Dinosaur");
-    await _monsterController.fetchCards("Divine-Beast");
-    await _monsterController.fetchCards("Dragon");
-    await _monsterController.fetchCards("Fairy");
-    await _monsterController.fetchCards("Fiend");
-    await _monsterController.fetchCards("Fish");
-    await _monsterController.fetchCards("Insect");
-    await _monsterController.fetchCards("Machine");
-    await _monsterController.fetchCards("Plant");
-    await _monsterController.fetchCards("Psychic");
-    await _monsterController.fetchCards("Pyro");
-    await _monsterController.fetchCards("Reptile");
-    await _monsterController.fetchCards("Sea Serpent");
-    await _monsterController.fetchCards("Spellcaster");
-    await _monsterController.fetchCards("Thunder");
-    await _monsterController.fetchCards("Warrior");
-    await _monsterController.fetchCards("Winged Beast");
+    await _monsterController.fetchCards();
+  }
+
+  void _insert(Data data) async {
+    // row to insert
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnCod: data.id,
+      DatabaseHelper.columnName: data.name,
+      DatabaseHelper.columnType: data.type,
+      DatabaseHelper.columnDesc: data.desc,
+      DatabaseHelper.columnAtk: data.atk,
+      DatabaseHelper.columnDef: data.def,
+      DatabaseHelper.columnLevel: data.level,
+      DatabaseHelper.columnRace: data.race,
+      DatabaseHelper.columnCardImages: data.cardImages[0].imageUrlSmall,
+    };
+    final id = await dbHelper.insert(row);
+    print('inserted row id: $id');
   }
 
   Widget _listCards(
@@ -71,7 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
     BuildContext context,
   ) {
     List<Widget> list = <Widget>[];
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < dataCards.length; i++) {
+      _insert(dataCards[i]);
       list.add(Column(
         children: [
           Column(
@@ -84,13 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Text(dataCards[i].def.toString()),
               Text(dataCards[i].level.toString()),
               Text(dataCards[i].race),
-              Text(dataCards[i].attribute),
               Container(
                 height: 150,
                 width: 80,
                 child: Image.network(
-                  dataCards[i].cardImages[0].imageUrl,
-                  scale: 1,
+                  dataCards[i].cardImages[0].imageUrlSmall,
+                  scale: 0.5,
                 ),
               )
             ],
@@ -144,11 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.amber,
                           );
                         } else {
-                          if (_monsterController.aqua.data != null &&
-                              _monsterController.aqua.data.isNotEmpty) {
+                          if (_monsterController.dataMonster != null &&
+                              _monsterController.dataMonster.isNotEmpty) {
                             return Container(child: Observer(builder: (_) {
                               return _listCards(
-                                  _monsterController.aqua.data, context);
+                                  _monsterController.dataMonster, context);
                             }));
                           } else {
                             return Text('não foi possivel carregar dados');

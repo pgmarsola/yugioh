@@ -9,8 +9,6 @@ class Data {
   int def;
   int level;
   String race;
-  String attribute;
-  String nameEn;
   List<CardImages> cardImages;
 
   Data({
@@ -22,8 +20,6 @@ class Data {
     this.def,
     this.level,
     this.race,
-    this.attribute,
-    this.nameEn,
     this.cardImages,
   });
 
@@ -36,8 +32,6 @@ class Data {
     def = json['def'];
     level = json['level'];
     race = json['race'];
-    attribute = json['attribute'];
-    nameEn = json['name_en'];
     if (json['card_images'] != null) {
       cardImages = <CardImages>[];
       json['card_images'].forEach((v) {
@@ -56,8 +50,6 @@ class Data {
     data['def'] = this.def;
     data['level'] = this.level;
     data['race'] = this.race;
-    data['attribute'] = this.attribute;
-    data['name_en'] = this.nameEn;
     if (this.cardImages != null) {
       data['card_images'] = this.cardImages.map((v) => v.toJson()).toList();
     }

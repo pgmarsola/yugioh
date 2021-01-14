@@ -15,132 +15,90 @@ abstract class _MonsterControllerBase with Store {
   }
 
   @observable
-  Monster aqua;
+  Monster monster;
 
   @observable
-  Monster beast;
-
-  @observable
-  Monster beastWarrior;
-
-  @observable
-  Monster creatorGod;
-
-  @observable
-  Monster cyberse;
-
-  @observable
-  Monster dinosaur;
-
-  @observable
-  Monster divineBeast;
-
-  @observable
-  Monster dragon;
-
-  @observable
-  Monster fairy;
-
-  @observable
-  Monster fiend;
-
-  @observable
-  Monster fish;
-
-  @observable
-  Monster insect;
-
-  @observable
-  Monster machine;
-
-  @observable
-  Monster plant;
-
-  @observable
-  Monster psychic;
-
-  @observable
-  Monster pyro;
-
-  @observable
-  Monster reptile;
-
-  @observable
-  Monster rock;
-
-  @observable
-  Monster seaSerpent;
-
-  @observable
-  Monster spellcaster;
-
-  @observable
-  Monster thunder;
-
-  @observable
-  Monster warrior;
-
-  @observable
-  Monster wingedBeast;
-
-  @observable
-  ObservableList<Data> listDB;
+  ObservableList<Data> dataMonster;
 
   @observable
   bool isLoading = false;
 
   @action
-  fetchCards(String race) async {
+  fetchCards() async {
     isLoading = true;
+    monster = await _monsterRepository.fetchMonsters();
 
-    if (race == "Aqua") {
-      aqua = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Beast") {
-      beast = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Beast-Warrior") {
-      beastWarrior = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Creator-God") {
-      creatorGod = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Cyberse") {
-      cyberse = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Dinosaur") {
-      dinosaur = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Divine-Beast") {
-      divineBeast = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Dragon") {
-      dragon = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Fairy") {
-      fairy = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Fiend") {
-      fiend = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Fish") {
-      fish = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Insect") {
-      insect = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Machine") {
-      machine = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Plant") {
-      plant = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Psychic") {
-      psychic = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Pyro") {
-      pyro = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Reptile") {
-      reptile = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Rock") {
-      rock = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Sea Serpent") {
-      seaSerpent = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Spellcaster") {
-      spellcaster = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Thunder") {
-      thunder = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Warrior") {
-      warrior = await _monsterRepository.fetchMonsters(race);
-    } else if (race == "Winged Beast") {
-      wingedBeast = await _monsterRepository.fetchMonsters(race);
+    if (monster != null) {
+      listaMonster(monster.data);
     }
-
     isLoading = false;
+  }
+
+  @action
+  listaMonster(list) {
+    var monsterCards = ObservableList<Data>.of([]);
+    var aqua = ObservableList<Data>.of([]);
+    var beast = ObservableList<Data>.of([]);
+    var cyberse = ObservableList<Data>.of([]);
+    var dinosaur = ObservableList<Data>.of([]);
+    var dragon = ObservableList<Data>.of([]);
+    var fairy = ObservableList<Data>.of([]);
+    var fiend = ObservableList<Data>.of([]);
+    var fish = ObservableList<Data>.of([]);
+    var insect = ObservableList<Data>.of([]);
+    var machine = ObservableList<Data>.of([]);
+    var plant = ObservableList<Data>.of([]);
+    var psychic = ObservableList<Data>.of([]);
+    var pyro = ObservableList<Data>.of([]);
+    var reptile = ObservableList<Data>.of([]);
+    var rock = ObservableList<Data>.of([]);
+    var spellcaster = ObservableList<Data>.of([]);
+    var thunder = ObservableList<Data>.of([]);
+    var warrior = ObservableList<Data>.of([]);
+    var wingedBeast = ObservableList<Data>.of([]);
+
+    aqua = ObservableList<Data>.of(list.where((i) => i.race == "Aqua"));
+    beast = ObservableList<Data>.of(list.where((i) => i.race == "Beast"));
+    cyberse = ObservableList<Data>.of(list.where((i) => i.race == "Cyberse"));
+    dinosaur = ObservableList<Data>.of(list.where((i) => i.race == "Dinosaur"));
+    dragon = ObservableList<Data>.of(list.where((i) => i.race == "Dragon"));
+    fairy = ObservableList<Data>.of(list.where((i) => i.race == "Fairy"));
+    fiend = ObservableList<Data>.of(list.where((i) => i.race == "Fiend"));
+    fish = ObservableList<Data>.of(list.where((i) => i.race == "Fish"));
+    insect = ObservableList<Data>.of(list.where((i) => i.race == "Insect"));
+    machine = ObservableList<Data>.of(list.where((i) => i.race == "Machine"));
+    plant = ObservableList<Data>.of(list.where((i) => i.race == "Plant"));
+    psychic = ObservableList<Data>.of(list.where((i) => i.race == "Psychic"));
+    pyro = ObservableList<Data>.of(list.where((i) => i.race == "Pyro"));
+    reptile = ObservableList<Data>.of(list.where((i) => i.race == "Reptile"));
+    rock = ObservableList<Data>.of(list.where((i) => i.race == "Rock"));
+    spellcaster =
+        ObservableList<Data>.of(list.where((i) => i.race == "Spellcaster"));
+    thunder = ObservableList<Data>.of(list.where((i) => i.race == "Thunder"));
+    warrior = ObservableList<Data>.of(list.where((i) => i.race == "Warrior"));
+    wingedBeast =
+        ObservableList<Data>.of(list.where((i) => i.race == "Winged Beast"));
+
+    monsterCards = ObservableList<Data>.of(aqua +
+        beast +
+        cyberse +
+        dinosaur +
+        dragon +
+        fairy +
+        fiend +
+        fish +
+        insect +
+        machine +
+        plant +
+        psychic +
+        pyro +
+        reptile +
+        rock +
+        spellcaster +
+        thunder +
+        warrior +
+        wingedBeast);
+
+    dataMonster = monsterCards;
   }
 }
