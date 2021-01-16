@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:yugioh/screen/login.dart';
 import 'helper/database.dart';
 import 'model/data.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: Login(),
     );
   }
 }
@@ -50,18 +51,24 @@ class _MyHomePageState extends State<MyHomePage> {
   void _insert(Data data) async {
     // row to insert
     Map<String, dynamic> row = {
-      DatabaseHelper.columnCod: data.id,
+      DatabaseHelper.columnCod: data.id.toString(),
       DatabaseHelper.columnName: data.name,
       DatabaseHelper.columnType: data.type,
       DatabaseHelper.columnDesc: data.desc,
-      DatabaseHelper.columnAtk: data.atk,
-      DatabaseHelper.columnDef: data.def,
-      DatabaseHelper.columnLevel: data.level,
+      DatabaseHelper.columnAtk: data.atk.toString(),
+      DatabaseHelper.columnDef: data.def.toString(),
+      DatabaseHelper.columnLevel: data.level.toString(),
       DatabaseHelper.columnRace: data.race,
       DatabaseHelper.columnCardImages: data.cardImages[0].imageUrlSmall,
     };
     final id = await dbHelper.insert(row);
     print('inserted row id: $id');
+  }
+
+  void _query() async {
+    final allRows = await dbHelper.queryAllRows();
+    print('query all rows:');
+    allRows.forEach((row) => print(row));
   }
 
   Widget _listCards(
@@ -83,14 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
               Text(dataCards[i].def.toString()),
               Text(dataCards[i].level.toString()),
               Text(dataCards[i].race),
-              Container(
-                height: 150,
-                width: 80,
-                child: Image.network(
-                  dataCards[i].cardImages[0].imageUrlSmall,
-                  scale: 0.5,
-                ),
-              )
             ],
           ),
           Divider(
@@ -116,12 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
                 icon: Icon(Icons.list),
                 onPressed: () {
-                  //              Navigator.push(
-                  //                context,
-                  //                MaterialPageRoute(
-                  //                    builder: (context) => TelaTeste(
-                  //                        _effectMonsterController.effectMonster.data)),
-                  //              );
+                  _query();
+                  print(_monsterController.dataMonster.length);
                 })
           ],
         ),

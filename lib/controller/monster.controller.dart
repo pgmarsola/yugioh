@@ -56,6 +56,7 @@ abstract class _MonsterControllerBase with Store {
     var thunder = ObservableList<Data>.of([]);
     var warrior = ObservableList<Data>.of([]);
     var wingedBeast = ObservableList<Data>.of([]);
+    var normalMonster = ObservableList<Data>.of([]);
 
     aqua = ObservableList<Data>.of(list.where((i) => i.race == "Aqua"));
     beast = ObservableList<Data>.of(list.where((i) => i.race == "Beast"));
@@ -99,6 +100,9 @@ abstract class _MonsterControllerBase with Store {
         warrior +
         wingedBeast);
 
-    dataMonster = monsterCards;
+    normalMonster =
+        ObservableList<Data>.of(list.where((i) => i.type == "Normal Monster"));
+
+    dataMonster = normalMonster..sort((a, b) => (a.name).compareTo(b.name));
   }
 }

@@ -55,7 +55,7 @@ class DatabaseHelper {
             $columnDef TEXT NOT NULL,
             $columnLevel TEXT NOT NULL,
             $columnRace TEXT NOT NULL,
-            $columnCardImages TEXT NOT NULL,
+            $columnCardImages TEXT NOT NULL
           )
           ''');
   }
