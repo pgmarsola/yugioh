@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:yugioh/helper/sign.in.dart';
+import 'package:yugioh/screen/home.dart';
 import 'package:yugioh/utils/colors.dart';
 
 class Login extends StatefulWidget {
@@ -7,7 +11,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController _user = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _success;
+  String _userEmail;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -50,24 +59,29 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: screenHeight * 5,
                 ),
-                Padding(
-                  padding: EdgeInsets.all(screenHeight * 2),
-                  child: TextFormField(
-                    controller: _user,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: vinho, width: 2)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
-                    ),
-                  ),
-                )
+                _signInButton(),
               ],
             ),
           )),
+    );
+  }
+
+  Widget _signInButton() {
+    return SignInButton(
+      Buttons.Google,
+      onPressed: () {
+        signInWithGoogle().then((result) {
+          if (result != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return Home();
+                },
+              ),
+            );
+          }
+        });
+      },
     );
   }
 }
